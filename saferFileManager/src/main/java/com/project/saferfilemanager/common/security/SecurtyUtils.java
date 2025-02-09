@@ -6,7 +6,7 @@ public class SecurtyUtils {
         if(path == null){
             return true;
         }
-        return path.startsWith(username) && !path.contains("..");
+        return path.startsWith(username) && !path.contains(".");
     }
 
 }
