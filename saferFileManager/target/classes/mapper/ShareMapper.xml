@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.saferfilemanager.mapper.ShareMapper">
+
+    <resultMap id="ShareResultMap" type="com.project.saferfilemanager.entity.Share">
+        <id property="id" column="id" />
+        <result property="shareTime" column="shareTime"/>
+        <result property="endTime" column="endTime"/>
+        <result property="userId" column="userId"/>
+        <result property="name" column="name"/>
+        <result property="oriName" column="oriName"/>
+    </resultMap>
+
+    <select id="getShareById" resultMap="ShareResultMap" parameterType="int">
+        SELECT * FROM shares WHERE id = #{id}
+    </select>
+
+    <select id="getShareByName" resultMap="ShareResultMap" parameterType="String">
+        SELECT * FROM shares WHERE name = #{name}
+    </select>
+
+    <select id="getShareByUserId" resultMap="ShareResultMap" parameterType="int">
+        SELECT * FROM shares WHERE userId = #{userId}
+    </select>
+
+    <select id="getAllShare" resultMap="ShareResultMap">
+        SELECT * FROM shares
+    </select>
+
+    <insert id="insertShare" parameterType="com.project.saferfilemanager.entity.Share">
+        INSERT INTO shares (shareTime, endTime, userId, name, oriName)
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="shareTime != null and shareTime != ''">#{shareTime},</if>
+            <if test="endTime != null and endTime != ''">#{endTime},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="oriName != null and oriName != ''">#{oriName},</if>
+        </trim>
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            <if test="shareTime != null and shareTime != ''">shareTime = #{shareTime},</if>
+            <if test="endTime != null and endTime != ''">endTime = #{endTime},</if>
+            <if test="userId != null">userId = #{userId},</if>
+            <if test="oriName != null and oriName != ''">oriName = #{oriName}</if>
+        </trim>
+    </insert>
+
+
+
+
+
+    <delete id="deleteShareById" parameterType="int">
+        DELETE FROM shares WHERE id = #{id}
+    </delete>
+
+</mapper>
